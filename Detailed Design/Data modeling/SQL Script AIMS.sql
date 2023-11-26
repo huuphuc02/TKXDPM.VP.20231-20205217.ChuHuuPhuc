@@ -20,6 +20,10 @@ create table Book(
     publicationDate date
 );
 
+alter table Book add column numOfPages int;
+
+alter table Book add column bookCategory varchar(50);
+
 alter table Book add constraint fk_Book_Product foreign key(id) references Product(id);
 
 create table CD(
@@ -42,6 +46,8 @@ create table DVD(
     runtime int not null,
     language varchar(45) not null
 );
+
+alter table DVD add column releasedDate date;
 
 alter table DVD add constraint fk_DVD_Product foreign key(id) references Product(id);
 
@@ -139,4 +145,69 @@ CREATE INDEX fk_Invoice_Order1_idx ON Invoice(orderId);
 
 CREATE INDEX fk_PaymentTransaction_Card1_idx ON PaymentTransaction (cardId);
 CREATE INDEX fk_PaymentTransaction_Invoice1_idx ON Invoice (paymentTransactionId);
+
+INSERT INTO Product (category, title, price, value, quantity, isSupportRushDelivery)
+VALUES 
+    ('Book', 'The Great Gatsby', 20, 15, 50, true),
+    ('CD', 'Abbey Road', 15, 10, 30, false),
+    ('DVD', 'Inception', 25, 20, 40, true),
+    ('LP', 'Dark Side of the Moon', 30, 25, 25, false);
+    
+INSERT INTO Book (id, authors, coverType, publisher, publicationDate)
+VALUES 
+    (1, 'F. Scott Fitzgerald', 'Hardcover', 'Scribner', '1925-04-10');
+    
+INSERT INTO CD (id, artist, tracklist, recordLabel, genre, releaseDate)
+VALUES 
+    (2, 'The Beatles', '1. Come Together, 2. Something, 3. Oh! Darling', 'EMI', 'Rock', '1969-09-26');
+
+INSERT INTO DVD (id, director, diskType, studio, subtitles, runtime, language)
+VALUES 
+    (3, 'Christopher Nolan', 'Blu-ray', 'Warner Bros.', 'English', 148, 'English');
+
+INSERT INTO LP (id, artist, tracklist, recordLabel, genre, releaseDate)
+VALUES 
+    (4, 'Pink Floyd', '1. Speak to Me, 2. Breathe, 3. On the Run', 'Harvest', 'Progressive Rock', '1973-03-01');
+
+select * from Product;
+    
+alter table Product add column imageUrl varchar(100);
+
+update Product set imageUrl = 'assets/images/book/book1.jpg' where id > 0;
+
+INSERT INTO Product (category, title, price, value, quantity, imageUrl, isSupportRushDelivery)
+VALUES 
+    ('Book', 'To Kill a Mockingbird', 18, 15, 5,'assets/images/book/book2.jpg', true),
+    ('CD', 'Thriller', 12, 10, 3,'assets/images/cd/cd1.jpg', false),
+    ('DVD', 'The Shawshank Redemption', 20, 15,'assets/images/dvd/dvd1.jpg', 38, true),
+    ('LP', 'Hotel California', 35, 28, 30,'assets/images/cd/cd2.jpg', false),
+    ('Book', '1984', 15, 10, 50, 'assets/images/book/book4.jpg', true),
+    ('CD', 'The Wall', 25, 22, 2,'assets/images/cd/cd3.jpg', false),
+    ('DVD', 'Pulp Fiction', 18, 15, 40,'assets/images/dvd/dvd2.jpg', true),
+    ('LP', 'Led Zeppelin IV', 30, 25, 28,'assets/images/cd/cd4.jpg', false);
+    
+delete from Product where id = 13;
+
+INSERT INTO Book (id, authors, coverType, publisher, publicationDate)
+VALUES 
+    (5, 'Harper Lee', 'Paperback', 'J.B. Lippincott & Co.', '1960-07-11'),
+    (9, 'George Orwell', 'Hardcover', 'Secker & Warburg', '1949-06-08');
+    
+INSERT INTO CD (id, artist, tracklist, recordLabel, genre, releaseDate)
+VALUES 
+    (6, 'Michael Jackson', '1. Wanna Be Startin\' Somethin\', 2. Thriller, 3. Beat It', 'Epic Records', 'Pop', '1982-11-30'),
+    (10, 'Michael Jackson', '1. Wanna Be Startin\' Somethin\', 2. Thriller, 3. Beat It', 'Epic Records', 'Pop', '1982-11-30');
+    
+INSERT INTO DVD (id, director, diskType, studio, subtitles, runtime, language)
+VALUES 
+    (7, 'Frank Darabont', 'Blu-ray', 'Columbia Pictures', 'English', 142, 'English'),
+    (11, 'Quentin Tarantino', 'DVD', 'Miramax Films', 'English', 154, 'English');
+    
+INSERT INTO LP (id, artist, tracklist, recordLabel, genre, releaseDate)
+VALUES 
+    (8, 'Led Zeppelin', '1. Black Dog, 2. Stairway to Heaven, 3. Rock and Roll', 'Atlantic Records', 'Hard Rock', '1971-11-08'),
+    (12, 'Led Zeppelin', '1. Black Dog, 2. Stairway to Heaven, 3. Rock and Roll', 'Atlantic Records', 'Hard Rock', '1971-11-08');
+
+
+
 
