@@ -3,13 +3,10 @@ package controller;
 import java.sql.SQLException;
 import java.util.List;
 
-import entity.cart.Cart;
 import entity.media.Media;
 
 /**
  * This class controls the flow of events in homescreen
- * 
- * @author nguyenlm
  */
 public class HomeController extends BaseController {
 

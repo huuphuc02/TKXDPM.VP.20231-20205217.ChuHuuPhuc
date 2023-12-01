@@ -114,7 +114,6 @@ public class PaymentScreenHandler extends BaseScreenHandler {
                                     response.put("MESSAGE", "You have successfully paid for your order!");
                                     webViewStage.close();
                                     goToResultScreen(response);
-
                                 } else if (webView.getEngine().getLocation().contains("vnp_ResponseCode=24")) {
                                     response.put("RESULT", "PAYMENT FAILED!");
                                     response.put("MESSAGE", "You have failed to pay for your order");

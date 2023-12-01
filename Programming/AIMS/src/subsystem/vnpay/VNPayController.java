@@ -83,11 +83,6 @@ public class VNPayController {
     paymentResponse.setStatus("OK");
     paymentResponse.setMessage("Successfully");
     paymentResponse.setURL(paymentUrl);
-//    com.google.gson.JsonObject job = new JsonObject();
-//        job.addProperty("code", "00");
-//        job.addProperty("message", "success");
-//        job.addProperty("data", paymentUrl);
-//    Gson gson = new Gson();
     return paymentResponse;
     }
 }

@@ -4,13 +4,6 @@ import entity.cart.Cart;
 import entity.cart.CartMedia;
 import entity.media.Media;
 import java.util.List;
-
-
-/**
- * This class is the base controller for our AIMS project.
- * 
- * @author nguyenlm
- */
 public class BaseController {
 
   /**

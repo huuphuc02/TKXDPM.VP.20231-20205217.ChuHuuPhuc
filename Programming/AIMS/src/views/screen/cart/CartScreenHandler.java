@@ -115,7 +115,7 @@ public class CartScreenHandler extends BaseScreenHandler {
 	public void requestToViewCart(BaseScreenHandler prevScreen) throws SQLException {
 		setPreviousScreen(prevScreen);
 		setScreenTitle("Cart Screen");
-		getBController().checkAvailabilityOfProduct();
+//		getBController().checkAvailabilityOfProduct();
 		displayCartWithMediaAvailability();
 		show();
 	}

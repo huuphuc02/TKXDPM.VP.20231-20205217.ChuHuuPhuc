@@ -9,15 +9,7 @@ import entity.media.Media;
 import entity.order.OrderMedia;
 import entity.shipping.RushDeliveryInfo;
 
-/**
- * This class controls the flow of place rush order usecase in our AIMS project
- * 
- * @author giangleee
- */
 public class PlaceRushOrderController extends BaseController {
-	/**
-	 * Just for logging purpose
-	 */
 	private static Logger LOGGER = utils.Utils.getLogger(PlaceRushOrderController.class.getName());
 
 	
@@ -51,7 +43,6 @@ public class PlaceRushOrderController extends BaseController {
 				return true;
 			}
 		}
-
 		return false;
 	}
 }

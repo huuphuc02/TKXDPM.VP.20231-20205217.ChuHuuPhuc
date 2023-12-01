@@ -10,31 +10,14 @@ import common.exception.PaymentException;
 import common.exception.UnrecognizedException;
 import entity.cart.Cart;
 import entity.invoice.Invoice;
-import entity.payment.CreditCard;
-import entity.payment.PaymentTransaction;
-import subsystem.InterbankInterface;
-import subsystem.InterbankSubsystem;
 import subsystem.paypal.PaypalController;
 
 /**
  * This {@code PaymentController} class control the flow of the payment process
  * in our AIMS Software.
- * 
- * @author hieud
  *
  */
 public class PaymentController extends BaseController {
-
-  /**
-   * Represent the card used for payment
-   */
-  private CreditCard card;
-
-  /**
-   * Represent the Interbank subsystem
-   */
-  private InterbankInterface interbank;
-
   /**
    * Validate the input date which should be in the format "mm/yy", and then
    * return a {@link java.lang.String String} representing the date in the
@@ -51,7 +34,6 @@ public class PaymentController extends BaseController {
     if (strs.length != 2) {
       throw new InvalidCardException();
     }
-
     String datee = null;
     int month = -1;
     int year = -1;
@@ -69,36 +51,6 @@ public class PaymentController extends BaseController {
     }
 
     return datee;
-  }
-
-
-  /**
-   * Pay order, and then return the result with a message.
-   * 
-   * @param amount         - the amount to pay
-   * @param contents       - the transaction contents
-   * @param cardNumber     - the card number
-   * @param cardHolderName - the card holder name
-   * @return {@link java.util.Map Map} represent the payment result with a
-   *         message.
-   */
-  public Map<String, String> payOrder(int amount, String contents, String cardNumber, String cardHolderName,
-      String issueDate) {
-    Map<String, String> result = new Hashtable<String, String>();
-    result.put("RESULT", "PAYMENT FAILED!");
-    try {
-      this.card = new CreditCard(cardNumber, cardHolderName,
-          getDate(issueDate));
-
-      this.interbank = new InterbankSubsystem();
-      PaymentTransaction transaction = interbank.payOrder(card, amount, contents);
-
-      result.put("RESULT", "PAYMENT SUCCESSFUL!");
-      result.put("MESSAGE", "You have successfully paid the order!");
-    } catch (PaymentException | UnrecognizedException ex) {
-      result.put("MESSAGE", ex.getMessage());
-    }
-    return result;
   }
 
   public Map<String, String> paypalOrder(Invoice invoice) {

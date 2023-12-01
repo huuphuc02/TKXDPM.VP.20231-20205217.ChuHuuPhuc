@@ -17,13 +17,7 @@ import entity.media.Media;
 import entity.order.Order;
 import entity.order.OrderMedia;
 
-/**
- * This class controls the flow of place order usecase in our AIMS project
- * 
- * @author nguyenlm
- */
 public class PlaceOrderController extends BaseController {
-
     /**
      * Just for logging purpose
      */
@@ -141,28 +135,10 @@ public class PlaceOrderController extends BaseController {
      */
     public int calculateShippingFee(Order order) {
         Random rand = new Random();
-        int fees = (int) (((rand.nextFloat() * 10) / 100) * order.getAmount());
+        int fees = order.getAmount() * 10 / 100;
         LOGGER.info("Order Amount: " + order.getAmount() + " -- Shipping Fees: " + fees);
         return fees;
     }
-
-    /**
-     * This method get product available place rush order media
-     * 
-     * @param order
-     * @return media
-     * @throws SQLException
-     */
-//    public Media getProductAvailablePlaceRush(Order order) throws SQLException {
-//        Media media = new Media();
-//        HashMap<String, String> deliveryInfo = order.getDeliveryInfo();
-//        validateAddressPlaceRushOrder(deliveryInfo.get("province"), deliveryInfo.get("address"));
-//        for (Object object : order.getlstOrderMedia()) {
-//            // CartMedia cartMedia = (CartMedia) object;
-//            validateMediaPlaceRushorder();
-//        }
-//        return media;
-//    }
 
     
     /** 
@@ -176,22 +152,6 @@ public class PlaceOrderController extends BaseController {
         if(!province.equals("Hà Nội"))
             return false;
         return true;
-    }
-
-    public boolean checkRushDeliveryProduct(List listMedia) {
-        Iterator var3 = listMedia.iterator();
-
-        while(((Iterator<?>) var3).hasNext()) {
-            Object object = var3.next();
-            OrderMedia media = (OrderMedia)object;
-            Media med = media.getMedia();
-            System.out.println(med);
-            if (med.isSupportRushDelivery()) {
-                return true;
-            }
-        }
-
-        return false;
     }
     /** 
      * @return boolean

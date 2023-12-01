@@ -14,8 +14,6 @@ public class Invoice {
     public Invoice(Order order){
         this.order = order;
     }
-
-    
     /** 
      * @return Order
      */
@@ -37,9 +35,5 @@ public class Invoice {
      */
     public int getAmount() {
         return amount;
-    }
-
-    public void saveInvoice(){
-        
     }
 }

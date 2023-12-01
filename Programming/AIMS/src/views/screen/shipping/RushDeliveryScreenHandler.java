@@ -86,69 +86,6 @@ public class RushDeliveryScreenHandler extends BaseScreenHandler {
     ShippingScreenHandler.show();
   }
 
-  
-  /** 
-   * @param event
-   */
-//  @FXML
-//  private void handleDeliveryType(ActionEvent event) {
-//    if (placeOrderValue.isSelected()) {
-//      deliveryInstruction.setDisable(true);
-//      shipmentDetail.setDisable(true);
-//      deliveryTime.setDisable(true);
-//    } else if (placeRushOrderValue.isSelected()) {
-//      deliveryInstruction.setDisable(false);
-//      shipmentDetail.setDisable(false);
-//      deliveryTime.setDisable(false);
-//    }
-//    handleProvinceError(event);
-//  }
-
-  
-  /** 
-//   * @param event
-//   */
-//  @FXML
-//  private void handleProvinceError(ActionEvent event) {
-//    HashMap<String, String> deliveryInfo = this.order.getDeliveryInfo();
-//    String province = new String(deliveryInfo.get("province"));
-//
-//    errorProvince.setVisible(false);
-//    deliveryInstruction.setDisable(true);
-//    shipmentDetail.setDisable(true);
-//    deliveryTime.setDisable(true);
-//    updateDeliveryMethodInfoButton.setDisable(false);
-//
-//    if (!province.equals("Hà Nội")) {
-//      if (placeRushOrderValue.isSelected()) {
-//        errorProvince.setVisible(true);
-//        deliveryInstruction.setDisable(true);
-//        shipmentDetail.setDisable(true);
-//        deliveryTime.setDisable(true);
-//        updateDeliveryMethodInfoButton.setDisable(true);
-//      } else {
-//        updateDeliveryMethodInfoButton.setDisable(false);
-//        deliveryInstruction.setDisable(true);
-//        shipmentDetail.setDisable(true);
-//        deliveryTime.setDisable(true);
-//      }
-//    } else {
-//      if (placeRushOrderValue.isSelected()) {
-//        errorProvince.setVisible(false);
-//        deliveryInstruction.setDisable(false);
-//        shipmentDetail.setDisable(false);
-//        deliveryTime.setDisable(false);
-//        updateDeliveryMethodInfoButton.setDisable(false);
-//      } else {
-//        updateDeliveryMethodInfoButton.setDisable(false);
-//        deliveryInstruction.setDisable(true);
-//        shipmentDetail.setDisable(true);
-//        deliveryTime.setDisable(true);
-//        errorProvince.setVisible(false);
-//      }
-//    }
-//  }
-
   /**
    * @return PlaceOrderController
    */
