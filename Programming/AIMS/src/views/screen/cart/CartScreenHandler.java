@@ -115,7 +115,7 @@ public class CartScreenHandler extends BaseScreenHandler {
 	public void requestToViewCart(BaseScreenHandler prevScreen) throws SQLException {
 		setPreviousScreen(prevScreen);
 		setScreenTitle("Cart Screen");
-//		getBController().checkAvailabilityOfProduct();
+		getBController().checkAvailabilityOfProduct();
 		displayCartWithMediaAvailability();
 		show();
 	}
@@ -158,10 +158,7 @@ public class CartScreenHandler extends BaseScreenHandler {
 	@FXML
 	private void handleBack(MouseEvent event) throws IOException {
 		// Back to previous screen
-		HomeScreenHandler homeHandler = new HomeScreenHandler(this.stage, Configs.HOME_PATH);
-		homeHandler.setScreenTitle("Home Screen");
-		homeHandler.setImage();
-		homeHandler.show();
+		homeScreenHandler.show();
 	}
 	
 	/** 

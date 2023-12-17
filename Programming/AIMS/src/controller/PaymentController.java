@@ -1,23 +1,25 @@
 package controller;
 
+import java.net.URI;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
-import com.paypal.base.rest.PayPalRESTException;
 import common.exception.InvalidCardException;
-import common.exception.PaymentException;
-import common.exception.UnrecognizedException;
 import entity.cart.Cart;
 import entity.invoice.Invoice;
-import subsystem.paypal.PaypalController;
-
-/**
- * This {@code PaymentController} class control the flow of the payment process
- * in our AIMS Software.
- *
- */
+import entity.payment.CreditCard;
+import entity.payment.PaymentTransaction;
 public class PaymentController extends BaseController {
+
+  /**
+   * Represent the card used for payment
+   */
+  private CreditCard card;
+
   /**
    * Validate the input date which should be in the format "mm/yy", and then
    * return a {@link java.lang.String String} representing the date in the
@@ -34,6 +36,7 @@ public class PaymentController extends BaseController {
     if (strs.length != 2) {
       throw new InvalidCardException();
     }
+
     String datee = null;
     int month = -1;
     int year = -1;
@@ -53,22 +56,46 @@ public class PaymentController extends BaseController {
     return datee;
   }
 
-  public Map<String, String> paypalOrder(Invoice invoice) {
-    Map<String, String> result = new Hashtable<String, String>();
-    result.put("RESULT", "PAYMENT FAILED!");
+
+  public Map<String, String> readTransanctionFromResponseURL(String url) {
+    Map<String, String> transactionInfo = new Hashtable<String, String>();
     try {
-      PaypalController paypalController = new PaypalController();
-      String approvalLink = paypalController.authorizePayment(invoice);
+      URI uri = new URI(url);
 
+      String query = uri.getQuery();
 
-      result.put("RESULT", "PAYMENT SUCCESSFUL!");
-      result.put("MESSAGE", "You have successfully paid the order!");
-    } catch (PaymentException | UnrecognizedException ex) {
-      result.put("MESSAGE", ex.getMessage());
-    } catch (PayPalRESTException e) {
+      String[] params = query.split("&");
+
+      Map<String, String> paramMap = new HashMap<>();
+      for (String param : params) {
+        String[] keyValue = param.split("=");
+        String key = keyValue[0];
+        String value = keyValue.length > 1 ? keyValue[1] : "";
+        paramMap.put(key, value);
+      }
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+      transactionInfo.put("id", paramMap.get("vnp_BankTranNo"));
+      transactionInfo.put("content", paramMap.get("vnp_OrderInfo"));
+      int amount = Integer.parseInt(paramMap.get("vnp_Amount")) / 100;
+      transactionInfo.put("amount", String.valueOf(amount));
+      transactionInfo.put("time", String.valueOf(sdf.parse(paramMap.get("vnp_PayDate"))));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return transactionInfo;
+  }
+
+  public void saveTransaction(Map<String, String> transactionInfo){
+    PaymentTransaction transaction = new PaymentTransaction(transactionInfo.get("cardHolder"), transactionInfo.get("id"),
+            transactionInfo.get("content"),Integer.parseInt(transactionInfo.get("amount")), transactionInfo.get("time"));
+    try {
+      PaymentTransaction.saveTransaction(transaction);
+      System.out.println("Saved transaction to database");
+    } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-    return result;
+    System.out.println(transactionInfo);
   }
 
   public void emptyCart() {

@@ -8,8 +8,10 @@ import java.util.logging.Logger;
 import entity.media.Media;
 import entity.order.OrderMedia;
 import entity.shipping.RushDeliveryInfo;
-
 public class PlaceRushOrderController extends BaseController {
+	/**
+	 * Just for logging purpose
+	 */
 	private static Logger LOGGER = utils.Utils.getLogger(PlaceRushOrderController.class.getName());
 
 	
@@ -20,15 +22,15 @@ public class PlaceRushOrderController extends BaseController {
 		RushDeliveryInfo rushDeliveryInfo = new RushDeliveryInfo(deliveryData.get("deliveryInstruction"), deliveryData.get("shipmentDetail"), deliveryData.get("deliveryTime"));
 	}
 
-	public static int checkRushDelivery(String province, List listMedia){
-		int result = 0;
+	public static String checkRushDelivery(String province, List listMedia){
+		String message = "";
 		if(!province.equals("Hà Nội")){
-			result = 1;
+			message = "Sorry. Your address doesn't support rush delivery. Please try again!";
 		}
 		else if(checkRushDeliveryProduct(listMedia)){
-			result = 2;
+			message = "Sorry. There are no products supported rush delivery. Please try again!";
 		}
-		return result;
+		return message;
 	}
 
 	public static boolean checkRushDeliveryProduct(List listMedia) {
@@ -43,6 +45,7 @@ public class PlaceRushOrderController extends BaseController {
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

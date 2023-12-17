@@ -6,13 +6,12 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-/**
- * @author nguyenlm Contains helper functions
- */
 public class Utils {
 
 	public static DateFormat DATE_FORMATER = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -30,37 +29,27 @@ public class Utils {
 		return Logger.getLogger(className);
 	}
 
-	
-	/** 
-	 * @param num
-	 * @return String
-	 */
+
 	public static String getCurrencyFormat(int num) {
 		Locale vietname = new Locale("vi", "VN");
 		NumberFormat defaultFormat = NumberFormat.getCurrencyInstance(vietname);
 		return defaultFormat.format(num);
 	}
 
-	/**
-	 * Return a {@link java.lang.String String} that represents the current time in the format of yyyy-MM-dd HH:mm:ss.
-	 * 
-	 * @author hieudm
-	 * @return the current time as {@link java.lang.String String}.
-	 */
+	public static String getCurrentTime(){
+		ZonedDateTime currentTime = ZonedDateTime.now();
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z yyyy");
+
+		return currentTime.format(formatter);
+	}
+
 	public static String getToday() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	    Date date = new Date();
 	    return dateFormat.format(date);
 	}
 
-	/**
-	 * Return a {@link java.lang.String String} that represents the cipher text
-	 * encrypted by md5 algorithm.
-	 * 
-	 * @author hieudm vnpay
-	 * @param message - plain text as {@link java.lang.String String}.
-	 * @return cipher text as {@link java.lang.String String}.
-	 */
 	public static String md5(String message) {
 		String digest = null;
 		try {

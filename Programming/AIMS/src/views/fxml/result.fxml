@@ -5,7 +5,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="746.0" prefWidth="1207.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -19,20 +21,74 @@
             <Image url="@../../../assets/images/Logo.png" />
          </image>
       </ImageView>
-      <Label fx:id="resultLabel" layoutX="330.0" layoutY="208.0" text="PAYMENT RESULT!" textFill="#5091e6">
+      <Label fx:id="resultLabel" layoutX="353.0" layoutY="120.0" text="PAYMENT RESULT!" textFill="#5091e6">
          <font>
-            <Font name="Calibri Bold" size="72.0" />
+            <Font name="Calibri Bold" size="64.0" />
          </font>
       </Label>
-      <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="269.0" layoutY="300.0" prefHeight="216.0" prefWidth="657.0" text="Message" textFill="#5091e6" wrapText="true">
+      <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="202.0" layoutY="193.0" prefHeight="142.0" prefWidth="820.0" text="Message" textFill="#5091e6" wrapText="true">
          <font>
-            <Font name="Calibri" size="36.0" />
+            <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="okButton" alignment="CENTER" contentDisplay="CENTER" layoutX="466.0" layoutY="624.0" mnemonicParsing="false" onMouseClicked="#confirmPayment" prefHeight="46.0" prefWidth="316.0" style="-fx-background-color: #5091e6;" text="OK" textFill="WHITE">
+      <Button fx:id="okButton" alignment="CENTER" contentDisplay="CENTER" layoutX="485.0" layoutY="652.0" mnemonicParsing="false" onMouseClicked="#returnHome" prefHeight="46.0" prefWidth="316.0" style="-fx-background-color: #5091e6;" text="OK" textFill="WHITE">
          <font>
             <Font name="Segoe UI Bold" size="24.0" />
          </font>
       </Button>
+      <Pane fx:id="transactionPane" layoutX="354.0" layoutY="340.0" prefHeight="302.0" prefWidth="674.0">
+         <children>
+            <Label layoutX="51.0" layoutY="19.0" prefHeight="27.0" prefWidth="161.0" text="Transaction ID: ">
+               <font>
+                  <Font name="Segoe UI Bold" size="18.0" />
+               </font>
+            </Label>
+            <Text fx:id="transactionID" layoutX="238.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="300.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Label layoutX="51.0" layoutY="64.0" prefHeight="27.0" prefWidth="142.0" text="Cardholder:">
+               <font>
+                  <Font name="Segoe UI Bold" size="18.0" />
+               </font>
+            </Label>
+            <Text fx:id="cardHolder" layoutX="238.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="300.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Label layoutX="51.0" layoutY="109.0" prefHeight="27.0" prefWidth="107.0" text="Amount:">
+               <font>
+                  <Font name="Segoe UI Bold" size="18.0" />
+               </font>
+            </Label>
+            <Text fx:id="amount" layoutX="238.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="300.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Label layoutX="51.0" layoutY="157.0" prefHeight="27.0" prefWidth="178.0" text="Transaction content:">
+               <font>
+                  <Font name="Segoe UI Bold" size="18.0" />
+               </font>
+            </Label>
+            <Text fx:id="transactionContent" layoutX="238.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="422.4000000000001">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Label layoutX="51.0" layoutY="206.0" prefHeight="27.0" prefWidth="178.0" text="Transaction time:">
+               <font>
+                  <Font name="Segoe UI Bold" size="18.0" />
+               </font>
+            </Label>
+            <Text fx:id="transactionTime" layoutX="238.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="422.4000000000001">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

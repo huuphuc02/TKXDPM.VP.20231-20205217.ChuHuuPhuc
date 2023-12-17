@@ -96,7 +96,7 @@ public class Order {
         double subTotal = 0;
         for (Object object : lstOrderMedia) {
             OrderMedia om = (OrderMedia) object;
-            subTotal += om.getPrice();
+            subTotal += om.getPrice() * om.getQuantity();
         }
         return subTotal;
     }

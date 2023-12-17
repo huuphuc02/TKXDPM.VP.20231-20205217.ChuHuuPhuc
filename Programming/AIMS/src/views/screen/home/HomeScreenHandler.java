@@ -46,15 +46,6 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
   private ImageView cartImage;
 
   @FXML
-  private VBox vboxMedia1;
-
-  @FXML
-  private VBox vboxMedia2;
-
-  @FXML
-  private VBox vboxMedia3;
-
-  @FXML
   private HBox hboxMedia;
 
   @FXML
@@ -82,7 +73,12 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
 
   @Override
   public void show() {
-    numMediaInCart.setText(String.valueOf(Cart.getCart().getListMedia().size()) + " media");
+    numMediaInCart.setText(Cart.getCart().getTotalMedia() + " media");
+    try {
+      updateAvailableMediaQuantity();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
     super.show();
   }
 
@@ -195,6 +191,13 @@ public class HomeScreenHandler extends BaseScreenHandler implements Initializabl
       addMediaHome(filteredItems);
     });
     menuButton.getItems().add(position, menuItem);
+  }
+
+  private void updateAvailableMediaQuantity() throws SQLException {
+    for(Object object: this.homeItems){
+      MediaHandler media = (MediaHandler) object;
+      media.updateMediaQuantity();
+    }
   }
 
 }

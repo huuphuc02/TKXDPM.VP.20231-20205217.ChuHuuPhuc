@@ -8,10 +8,12 @@ import common.exception.MediaNotAvailableException;
 import entity.media.Media;
 
 public class Cart {
+    
     private List<CartMedia> lstCartMedia;
     private static Cart cartInstance;
 
-    /**
+    
+    /** 
      * @return Cart
      */
     public static Cart getCart(){
@@ -31,7 +33,7 @@ public class Cart {
         lstCartMedia.add(cm);
     }
 
-
+    
     /** 
      * @param cm
      */
@@ -86,13 +88,12 @@ public class Cart {
         for (Object object : lstCartMedia) {
             CartMedia cartMedia = (CartMedia) object;
             int requiredQuantity = cartMedia.getQuantity();
-            int availQuantity = cartMedia.getMedia().getQuantity();
-            System.out.println(requiredQuantity);
-            System.out.println(availQuantity);
+            int availQuantity = cartMedia.getMedia().getOriginalQuantity();
             if (requiredQuantity > availQuantity) allAvai = false;
         }
         if (!allAvai) throw new MediaNotAvailableException("Some media not available");
     }
+
     
     /** 
      * @param media

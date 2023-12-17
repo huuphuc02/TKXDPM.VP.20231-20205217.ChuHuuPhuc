@@ -202,11 +202,34 @@ INSERT INTO DVD (id, director, diskType, studio, subtitles, runtime, language)
 VALUES 
     (7, 'Frank Darabont', 'Blu-ray', 'Columbia Pictures', 'English', 142, 'English'),
     (11, 'Quentin Tarantino', 'DVD', 'Miramax Films', 'English', 154, 'English');
-    
+
 INSERT INTO LP (id, artist, tracklist, recordLabel, genre, releaseDate)
 VALUES 
     (8, 'Led Zeppelin', '1. Black Dog, 2. Stairway to Heaven, 3. Rock and Roll', 'Atlantic Records', 'Hard Rock', '1971-11-08'),
     (12, 'Led Zeppelin', '1. Black Dog, 2. Stairway to Heaven, 3. Rock and Roll', 'Atlantic Records', 'Hard Rock', '1971-11-08');
+    
+ALTER TABLE PaymentTransaction 
+change transaction transactionTime varchar(50);
+
+ALTER TABLE PaymentTransaction 
+DROP foreign key paymenttransaction_ibfk_1, drop column cardId;
+
+ALTER TABLE PaymentTransaction
+ADD COLUMN cardHolderName varchar(50);
+
+ALTER TABLE orderr 
+DROP foreign key orderr_ibfk_1, drop column cartId;
+
+create table OrderProduct(
+	product_id int,
+    order_id int,
+    quantity int not null,
+    primary key(product_id, order_id),
+    foreign key(product_id) references Product(id),
+    foreign key(order_id) references orderr(id)
+);
+
+
 
 
 

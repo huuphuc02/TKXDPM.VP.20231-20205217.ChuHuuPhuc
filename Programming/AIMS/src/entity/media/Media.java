@@ -10,11 +10,6 @@ import java.util.logging.Logger;
 
 import entity.db.AIMSDB;
 import utils.Utils;
-
-/**
- * The general media class, for another media it can be done by inheriting this class
- * @author nguyenlm
- */
 public class Media {
 
     private static Logger LOGGER = Utils.getLogger(Media.class.getName());
@@ -25,6 +20,7 @@ public class Media {
     protected int value;
     protected int price;
     protected int quantity;
+    protected int originalQuantity;
     protected String imageURL;
     protected static boolean isSupportRushDelivery;
 
@@ -39,6 +35,7 @@ public class Media {
         this.price = price;
         this.value = value;
         this.quantity = quantity;
+        this.originalQuantity = quantity;
         this.isSupportRushDelivery = isSupportRushDelivery;
     }
 
@@ -46,11 +43,15 @@ public class Media {
         return this.quantity;
     }
 
+    public int getOriginalQuantity() throws SQLException {
+        return this.originalQuantity;
+    }
+
     public Media getMediaById(int id) throws SQLException {
         String sql = "SELECT * FROM Product ;";
         Statement stm = AIMSDB.getConnection().createStatement();
         ResultSet res = stm.executeQuery(sql);
-        return res.next() ? (new Media()).setId(res.getInt("id")).setTitle(res.getString("title")).setQuantity(res.getInt("quantity")).setCategory(res.getString("category")).setMediaURL(res.getString("imageUrl")).setPrice(res.getInt("price")).setPrice(res.getInt("price")).setSupportRushDelivery(res.getBoolean("isSupportRushDelivery")) : null;
+        return res.next() ? (new Media()).setId(res.getInt("id")).setTitle(res.getString("title")).setQuantity(res.getInt("quantity")).setOriginalQuantity(res.getInt("quantity")).setCategory(res.getString("category")).setMediaURL(res.getString("imageUrl")).setPrice(res.getInt("price")).setPrice(res.getInt("price")).setSupportRushDelivery(res.getBoolean("isSupportRushDelivery")) : null;
     }
 
     public List getAllMedia() throws SQLException {
@@ -60,20 +61,11 @@ public class Media {
         ArrayList medium = new ArrayList();
 
         while(res.next()) {
-            Media media = (new Media()).setId(res.getInt("id")).setTitle(res.getString("title")).setQuantity(res.getInt("quantity")).setCategory(res.getString("category")).setMediaURL(res.getString("imageUrl")).setPrice(res.getInt("price")).setValue(res.getInt("value")).setSupportRushDelivery(res.getBoolean("isSupportRushDelivery"));
+            Media media = (new Media()).setId(res.getInt("id")).setTitle(res.getString("title")).setQuantity(res.getInt("quantity")).setOriginalQuantity(res.getInt("quantity")).setCategory(res.getString("category")).setMediaURL(res.getString("imageUrl")).setPrice(res.getInt("price")).setValue(res.getInt("value")).setSupportRushDelivery(res.getBoolean("isSupportRushDelivery"));
             medium.add(media);
         }
 
         return medium;
-    }
-
-    public void updateMediaFieldById(String tbname, int id, String field, Object value) throws SQLException {
-        Statement stm = AIMSDB.getConnection().createStatement();
-        if (value instanceof String) {
-            value = "\"" + value + "\"";
-        }
-
-        stm.executeUpdate(" update " + tbname + " set " + field + "=" + value + " where id=" + id + ";");
     }
 
     public int getId() {
@@ -92,10 +84,6 @@ public class Media {
     public Media setTitle(String title) {
         this.title = title;
         return this;
-    }
-
-    public String getCategory() {
-        return this.category;
     }
 
     public Media setCategory(String category) {
@@ -121,10 +109,6 @@ public class Media {
         return this;
     }
 
-    public int getValue() {
-        return this.value;
-    }
-
     public Media setValue(int value) {
         this.value = value;
         return this;
@@ -148,6 +132,10 @@ public class Media {
         return this;
     }
 
+    public Media setOriginalQuantity(int quantity) {
+        this.originalQuantity = quantity;
+        return this;
+    }
     public String toString() {
         return "{ id='" + this.id + "', title='" + this.title + "', category='" + this.category + "', price='" + this.price + "', quantity='" + this.quantity + "', value='" + this.value + "', imageURL='" + this.imageURL + "'}";
     }

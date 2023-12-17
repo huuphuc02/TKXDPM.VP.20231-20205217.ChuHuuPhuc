@@ -5,20 +5,12 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * The {@link utils.MyMap JSON} class represents JSON objects. 
- * To create a new JSON object,
- * JSON jsonObject = new JSON();
- * jsonObject.put("key", value);
- * 
- * @author hieud
- *
- */
 public class MyMap extends LinkedHashMap<String, Object> {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Return a {@link java.lang.String String} that represents the JSON object.
+	 *
 	 * @return a {@link java.lang.String String}.
 	 */
 	public String toJSON() {
@@ -81,8 +73,7 @@ public class MyMap extends LinkedHashMap<String, Object> {
 	/**
 	 * Return a {@link java.lang.String String} that represents the term in between
 	 * 2 double quote.
-	 * 
-	 * @author hieudm
+	 *
 	 * @param 
 	 * str - {@link java.lang.String String}
 	 * idx - the index of the open quote
@@ -114,8 +105,7 @@ public class MyMap extends LinkedHashMap<String, Object> {
 	}
 	/**
 	 * Return a {@link utils.MyMap MyMap} that represents the interested substring in a {@link java.lang.String String}.
-	 * 
-	 * @author hieudm
+	 *
 	 * @param 
 	 * str - {@link java.lang.String String}
 	 * idx - the index of the first character in the interested substring in the {@link java.lang.String String}

@@ -18,6 +18,7 @@ import entity.order.Order;
 import entity.order.OrderMedia;
 
 public class PlaceOrderController extends BaseController {
+
     /**
      * Just for logging purpose
      */
@@ -80,11 +81,11 @@ public class PlaceOrderController extends BaseController {
      * The method validates the info
      * 
      * @param info
-     * @throws InterruptedException
-     * @throws IOException
      */
-    public boolean validateDeliveryInfo(HashMap<String, String> info) throws InterruptedException, IOException {
-        return this.validateName((String)info.get("name")) && this.validatePhoneNumber((String)info.get("phone")) && this.validateAddress((String)info.get("address")) && validateEmail((String)info.get("email")) && info.get("shippingMethod") != null;
+    public boolean validateDeliveryInfo(HashMap<String, String> info) {
+        boolean value = this.validateName(info.get("name"));
+        LOGGER.info(Boolean.toString(value));
+        return this.validateName(info.get("name")) && this.validatePhoneNumber(info.get("phone")) && this.validateAddress(info.get("address")) && validateEmail(info.get("email")) && info.get("shippingMethod") != null;
     }
 
     public boolean validateEmail(String email) {
@@ -95,7 +96,7 @@ public class PlaceOrderController extends BaseController {
     public boolean validatePhoneNumber(String phoneNumber) {
         if (phoneNumber.length() != 10) {
             return false;
-        } else if (Character.compare(phoneNumber.charAt(0), '0') != 0) {
+        } else if (phoneNumber.charAt(0) != '0') {
             return false;
         } else {
             try {
@@ -120,11 +121,7 @@ public class PlaceOrderController extends BaseController {
     public boolean validateAddress(String address) {
         if (address == null) {
             return false;
-        } else if (address.trim().length() == 0) {
-            return false;
-        } else {
-            return address.matches("^[a-zA-Z ]*$");
-        }
+        } else return address.trim().length() != 0;
     }
 
     /**
@@ -135,10 +132,28 @@ public class PlaceOrderController extends BaseController {
      */
     public int calculateShippingFee(Order order) {
         Random rand = new Random();
-        int fees = order.getAmount() * 10 / 100;
+        int fees = (int) (0.1 * order.getAmount());
         LOGGER.info("Order Amount: " + order.getAmount() + " -- Shipping Fees: " + fees);
         return fees;
     }
+
+    /**
+     * This method get product available place rush order media
+     * 
+     * @param order
+     * @return media
+     * @throws SQLException
+     */
+//    public Media getProductAvailablePlaceRush(Order order) throws SQLException {
+//        Media media = new Media();
+//        HashMap<String, String> deliveryInfo = order.getDeliveryInfo();
+//        validateAddressPlaceRushOrder(deliveryInfo.get("province"), deliveryInfo.get("address"));
+//        for (Object object : order.getlstOrderMedia()) {
+//            // CartMedia cartMedia = (CartMedia) object;
+//            validateMediaPlaceRushorder();
+//        }
+//        return media;
+//    }
 
     
     /** 
@@ -152,6 +167,22 @@ public class PlaceOrderController extends BaseController {
         if(!province.equals("Hà Nội"))
             return false;
         return true;
+    }
+
+    public boolean checkRushDeliveryProduct(List listMedia) {
+        Iterator var3 = listMedia.iterator();
+
+        while(((Iterator<?>) var3).hasNext()) {
+            Object object = var3.next();
+            OrderMedia media = (OrderMedia)object;
+            Media med = media.getMedia();
+            System.out.println(med);
+            if (med.isSupportRushDelivery()) {
+                return true;
+            }
+        }
+
+        return false;
     }
     /** 
      * @return boolean

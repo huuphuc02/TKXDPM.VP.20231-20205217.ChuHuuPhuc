@@ -44,6 +44,8 @@ public class MediaHandler extends FXMLScreenHandler{
     private Media media;
     private HomeScreenHandler home;
 
+
+
     public MediaHandler(String screenPath, Media media, HomeScreenHandler home) throws SQLException, IOException{
         super(screenPath);
         this.media = media;
@@ -55,7 +57,7 @@ public class MediaHandler extends FXMLScreenHandler{
                 // if media already in cart then we will increase the quantity by 1 instead of create the new cartMedia
                 CartMedia mediaInCart = home.getBController().checkMediaInCart(media);
                 if (mediaInCart != null) {
-                    mediaInCart.setQuantity(mediaInCart.getQuantity() + 1);
+                    mediaInCart.setQuantity(mediaInCart.getQuantity() + spinnerChangeNumber.getValue());
                 }else{
                     CartMedia cartMedia = new CartMedia(media, cart, spinnerChangeNumber.getValue(), media.getPrice());
                     cart.getListMedia().add(cartMedia);
@@ -75,7 +77,7 @@ public class MediaHandler extends FXMLScreenHandler{
                 } catch (Exception e) {
                     LOGGER.severe("Cannot add media to cart: ");
                 }
-                
+
             } catch (Exception exp) {
                 LOGGER.severe("Cannot add media to cart: ");
                 exp.printStackTrace();
@@ -84,16 +86,18 @@ public class MediaHandler extends FXMLScreenHandler{
         setMediaInfo();
     }
 
-    
-    /** 
+
+    /**
      * @return Media
      */
     public Media getMedia(){
         return media;
     }
 
-    
-    /** 
+    public void updateMediaQuantity() throws SQLException {
+        mediaAvail.setText(String.valueOf(media.getQuantity()));
+    }
+    /**
      * @throws SQLException
      */
     private void setMediaInfo() throws SQLException {
@@ -108,10 +112,10 @@ public class MediaHandler extends FXMLScreenHandler{
         mediaPrice.setText(Utils.getCurrencyFormat(media.getPrice()));
         mediaAvail.setText(Integer.toString(media.getQuantity()));
         spinnerChangeNumber.setValueFactory(
-            new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 1)
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 1)
         );
 
         setImage(mediaImage, media.getImageURL());
     }
-    
+
 }

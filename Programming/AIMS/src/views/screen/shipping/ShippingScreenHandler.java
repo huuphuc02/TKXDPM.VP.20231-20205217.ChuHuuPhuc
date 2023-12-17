@@ -154,15 +154,9 @@ public class ShippingScreenHandler extends BaseScreenHandler implements Initiali
       InvoiceScreenHandler.show();
     }
     else {
-      int result = PlaceRushOrderController.checkRushDelivery((String)this.province.getValue(),this.order.getlstOrderMedia());
-      System.out.println(result);
-      if(result==1){
-        PopupScreen.error("Sorry. Your address doesn't support rush delivery. Please try again!");
-        return;
-      }
-
-      if (result==2) {
-        PopupScreen.error("Sorry. There are no products supported rush delivery. Please try again!");
+      String message = PlaceRushOrderController.checkRushDelivery(this.province.getValue(),this.order.getlstOrderMedia());
+      if(!message.equals("")){
+        PopupScreen.error(message);
         return;
       }
       BaseScreenHandler DeliveryMethodsScreenHandler = new RushDeliveryScreenHandler(this.stage, Configs.DELIVERY_METHODS_PATH, this.order);

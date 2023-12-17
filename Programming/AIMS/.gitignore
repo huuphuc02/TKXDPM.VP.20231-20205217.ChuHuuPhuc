@@ -6,3 +6,7 @@
 aims.session.sql
 *.ipynb
 test/notebook
+/.idea
+/.settings
+/out
+/target

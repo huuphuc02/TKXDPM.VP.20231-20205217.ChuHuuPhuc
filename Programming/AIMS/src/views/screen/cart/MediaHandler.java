@@ -34,8 +34,8 @@ public class MediaHandler extends FXMLScreenHandler {
 	@FXML
 	protected ImageView image;
 
-	@FXML
-	protected VBox description;
+//	@FXML
+//	protected VBox description;
 
 	@FXML
 	protected Label labelOutOfStock;
@@ -49,8 +49,8 @@ public class MediaHandler extends FXMLScreenHandler {
 	@FXML
 	protected Label price;
 
-	@FXML
-	protected Label currency;
+//	@FXML
+//	protected Label currency;
 
 	@FXML
 	protected Button btnDelete;
@@ -64,9 +64,9 @@ public class MediaHandler extends FXMLScreenHandler {
 		this.cartScreen = cartScreen;
 		hboxMedia.setAlignment(Pos.CENTER);
 	}
-	
-	
-	/** 
+
+
+	/**
 	 * @param cartMedia
 	 */
 	public void setCartMedia(CartMedia cartMedia) {
@@ -89,6 +89,7 @@ public class MediaHandler extends FXMLScreenHandler {
 		btnDelete.setOnMouseClicked(e -> {
 			try {
 				Cart.getCart().removeCartMedia(cartMedia); // update user cart
+				cartMedia.getMedia().setQuantity(cartMedia.getMedia().getOriginalQuantity()); // restore quantity when delete
 				cartScreen.updateCart(); // re-display user cart
 				LOGGER.info("Deleted " + cartMedia.getMedia().getTitle() + " from the cart");
 			} catch (SQLException exp) {
@@ -102,19 +103,23 @@ public class MediaHandler extends FXMLScreenHandler {
 
 	private void initializeSpinner(){
 		SpinnerValueFactory<Integer> valueFactory = //
-			new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, cartMedia.getQuantity());
+				new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, cartMedia.getQuantity());
 		spinner = new Spinner<Integer>(valueFactory);
 		spinner.setOnMouseClicked( e -> {
 			try {
 				int numOfProd = this.spinner.getValue();
-				int remainQuantity = cartMedia.getMedia().getQuantity();
-				LOGGER.info("NumOfProd: " + numOfProd + " -- remainOfProd: " + remainQuantity);
-				if (numOfProd > remainQuantity){
-					LOGGER.info("product " + cartMedia.getMedia().getTitle() + " only remains " + remainQuantity + " (required " + numOfProd + ")");
-					labelOutOfStock.setText("Sorry, Only " + remainQuantity + " remain in stock");
-					spinner.getValueFactory().setValue(remainQuantity);
-					numOfProd = remainQuantity;
+				int originalQuantity = cartMedia.getMedia().getOriginalQuantity();
+				LOGGER.info("NumOfProd: " + numOfProd + " -- remainOfProd: " + originalQuantity);
+				if (numOfProd > originalQuantity){
+					numOfProd -= 1;
+					LOGGER.info("product " + cartMedia.getMedia().getTitle() + " only remains " + originalQuantity + " (required " + numOfProd + ")");
+					labelOutOfStock.setText("Sorry, Only " + 0 + " remain in stock");
+					spinner.getValueFactory().setValue(numOfProd);
+//					numOfProd = remainQuantity;
 				}
+
+				// update quantity of media
+				cartMedia.getMedia().setQuantity(originalQuantity - numOfProd);
 
 				// update quantity of mediaCart in useCart
 				cartMedia.setQuantity(numOfProd);
@@ -128,7 +133,7 @@ public class MediaHandler extends FXMLScreenHandler {
 			} catch (SQLException e1) {
 				throw new MediaUpdateException(Arrays.toString(e1.getStackTrace()).replaceAll(", ", "\n"));
 			}
-			
+
 		});
 		spinnerFX.setAlignment(Pos.CENTER);
 		spinnerFX.getChildren().add(this.spinner);
